@@ -148,6 +148,7 @@ const App = () => {
     setGameOver(true);
     setGameStarted(false);
     setColorHistory([]);
+    setOptions(3);
     if (timeInterval) {
       clearInterval(timeInterval);
     }
