@@ -153,10 +153,11 @@ const App = () => {
     }
   };
 
-  const startGame = () => {
+  const startGame = (option: number) => {
     setColorHistory([]);
     setGameOver(false);
     setScore(0);
+    setOptions(option ? option : 3);
     setGameTimeLeft(GAME_TIME);
     setRoundTimeLeft(ANSWER_TIME);
     setGameStarted(true);
@@ -167,7 +168,7 @@ const App = () => {
     console.log(option);
     console.log(colorOptions);
     colorOptions.current = option;
-    startGame();
+    //startGame();
   };
 
   const nextRound = () => {
@@ -206,7 +207,7 @@ const App = () => {
   const gameProgress = (gameTimeLeft / GAME_TIME) * 100;
 
   return (
-    <div className="flex flex-col md:flex-row w-screen h-screen bg-[#fdf8f8] text-black items-center justify-center">
+    <div className="flex flex-col md:flex-row w-screen lg:max-w-7xl mx-auto h-screen bg-[#fdf8f8] text-black items-center justify-center">
       <div className="flex-1 flex p-8 bg-gray-300 w-full md:w-[20%] h-full">
         <div className="text-xl font-semibold">
           <Sidebar history={colorHistory} />
@@ -216,13 +217,13 @@ const App = () => {
         <div className="text-3xl font-bold">
           <h1>Guess the Color</h1>
         </div>
-        <div className=" w-[80%] lg:w-[60%] h-full py-10">
+        <div className="w-full mx-4 lg:mx-24 md:w-11/12 lg:w-11/12 h-full py-10">
           <GameInfo
             highScore={highScore}
             score={score}
             gameTimeLeft={gameTimeLeft}
             gameStarted={gameStarted}
-            startGame={startGame}
+            startGame={() => startGame(colorOptions.current)}
           />
           <ProgressBar gameProgress={gameProgress} />
           {gameStarted && !gameOver && (
@@ -237,19 +238,19 @@ const App = () => {
               <div className="w-full items-center justify-center flex gap-2">
                 <button
                   className="rounded-md bg-gray-500 text-white font-semibold p-3 w-full"
-                  onClick={() => setOptions(3)}
+                  onClick={() => startGame(3)}
                 >
                   Easy
                 </button>
                 <button
                   className="rounded-md bg-gray-500 text-white font-semibold p-3 w-full"
-                  onClick={() => setOptions(4)}
+                  onClick={() => startGame(4)}
                 >
                   Medium
                 </button>
                 <button
                   className="rounded-md bg-gray-500 text-white font-semibold p-3 w-full"
-                  onClick={() => setOptions(5)}
+                  onClick={() => startGame(5)}
                 >
                   Hard
                 </button>
@@ -258,7 +259,9 @@ const App = () => {
           )}
         </div>
 
-        <ResetButton onReset={resetGame} />
+        <div className="block">
+          <ResetButton onReset={resetGame} />
+        </div>
       </div>
     </div>
   );
